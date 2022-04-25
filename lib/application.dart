@@ -24,6 +24,10 @@ class _ApplicationState extends State<Application> {
       print('FCM token = $token');
     });
 
+    _messaging.onTokenRefresh.listen((String token) {
+      print('Refreshed FCM token = $token');
+    });
+
     /// Returns a Stream that is called when an incoming FCM payload is received whilst
     /// the Flutter instance is in the foreground.
     FirebaseMessaging.onMessage.listen((RemoteMessage event) async {
@@ -42,6 +46,8 @@ class _ApplicationState extends State<Application> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       print(
           'Message received on push notif click: ${message.notification?.body}');
+      Fluttertoast.showToast(
+          msg: 'Notification Clicked: ${message.notification?.body}');
     });
   }
 
@@ -62,5 +68,12 @@ class _ApplicationState extends State<Application> {
       ),
       home: DashboardScreen(),
     );
+  }
+
+  @override
+  void dispose() {
+    AwesomeNotifications().actionSink.close();
+    AwesomeNotifications().createdSink.close();
+    super.dispose();
   }
 }

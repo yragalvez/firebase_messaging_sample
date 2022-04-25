@@ -30,6 +30,7 @@ void main() async {
         channelDescription: Strings.notificationChannelDesc,
         playSound: true,
         soundSource: 'resource://raw/res_pink_panther',
+        importance: NotificationImportance.High,
       )
     ],
   );
